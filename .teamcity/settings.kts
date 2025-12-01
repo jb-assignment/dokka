@@ -14,21 +14,16 @@ project {
         param("teamcity.agent.inactive.threshold.secs", "3600")
     }
 
-    val jvmTests = DistributedTests(testTask = "check", numberOfBatches = 5) {
-        vcs {
-            root(DslContext.settingsRoot)
-        }
-
-        triggers {
-            vcs { }
-        }
-
-        requirements {
-            add {
-                matches("teamcity.agent.jvm.os.family", "Linux")
-            }
-        }
+    val dokkaTests = DistributedTests(
+        testTask = "check",
+        numberOfBatches = 5
+    ) {
+        name = "Dokka tests"
+        id("dokka_tests")
+        vcs { root(DslContext.settingsRoot) }
+        triggers { vcs { } }
+        requirements { add { matches("teamcity.agent.jvm.os.family", "Linux") } }
     }
 
-    buildType(jvmTests)
+    buildType(dokkaTests)
 }

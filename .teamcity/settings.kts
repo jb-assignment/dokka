@@ -16,7 +16,7 @@ project {
 
     val dokkaTests = DistributedTests(
         testTask = "check",
-        numberOfBatches = 5
+        numberOfBatches = 1
     ) {
         name = "Dokka tests"
         id("dokka_tests")

@@ -137,8 +137,11 @@ buildCache {
             directory = buildCacheLocalDirectory.get()
         }
     }
-    remote(develocity.buildCache) {
-        isPush = buildCachePushEnabled.get()
+    buildCache {
+        remote<HttpBuildCache> {
+            url = uri("https://build-cache-node-hv2u6plrda-ew.a.run.app/cache")
+            isPush = System.getenv().containsKey("TEAMCITY_VERSION")
+        }
     }
 }
 //endregion

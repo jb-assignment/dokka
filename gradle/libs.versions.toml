@@ -68,7 +68,7 @@ gradlePlugin-gradle-foojayToolchains = "0.10.0"
 
 ## Test
 junit = "5.9.3"
-kotest = "5.6.2"
+kotest = "6.0.7"
 eclipse-jgit = "5.13.3.202401111512-r" # jgit 6.X requires Java 11 to run
 
 [libraries]
@@ -161,7 +161,6 @@ junit-jupiterApi = { module = "org.junit.jupiter:junit-jupiter-api", version.ref
 junit-jupiterParams = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit" }
 
 kotest-bom = { module = "io.kotest:kotest-bom", version.ref = "kotest" }
-kotest-datatest = { module = "io.kotest:kotest-framework-datatest" }
 kotest-junit5Runner = { module = "io.kotest:kotest-runner-junit5" }
 kotest-assertionsCore = { module = "io.kotest:kotest-assertions-core" }
 kotest-assertionsJson = { module = "io.kotest:kotest-assertions-json" }

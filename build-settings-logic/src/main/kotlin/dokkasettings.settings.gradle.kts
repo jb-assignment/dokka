@@ -31,56 +31,11 @@ fun <T : Any> dokkaProperty(name: String, convert: (String) -> T): Provider<T> =
 //endregion
 
 //region Gradle Build Scan
-// NOTE: build scan properties are documented in CONTRIBUTING.md
-val buildScanEnabled: Provider<Boolean> =
-    dokkaProperty("build.scan.enabled", String::toBoolean)
-        .orElse(buildingOnCi)
-
-/** Optionally override the default name attached to a Build Scan. */
-val buildScanUsername: Provider<String> =
-    dokkaProperty("build.scan.username")
-        .map(String::trim)
-
 develocity {
-    val buildScanEnabled = buildScanEnabled.get()
-
-    if (buildScanEnabled) {
-        plugins.apply("com.gradle.common-custom-user-data-gradle-plugin")
-    }
-
-    server = "https://ge.jetbrains.com/"
-
     buildScan {
-        publishing {
-            onlyIf { buildScanEnabled }
-        }
-
-        capture {
-            buildLogging = buildScanEnabled
-            fileFingerprints = buildScanEnabled
-            testLogging = buildScanEnabled
-        }
-
-        val overriddenName = buildScanUsername.orNull
-        // we need to assign properties' values to local variables to avoid issues with Gradle Configuration Cache.
-        // if we don't do it, by using those properties in `username { ... }` we catch `this` in closure
-        // and Gradle Configuration Cache doesn't allow to catch implicit `this` object
-        val buildingOnTeamCity = buildingOnTeamCity
-        val buildingOnGitHub = buildingOnGitHub
-        val buildingOnCi = buildingOnCi
-        obfuscation {
-            ipAddresses { _ -> listOf("0.0.0.0") }
-            hostname { _ -> "concealed" }
-            username { originalUsername ->
-                when {
-                    buildingOnTeamCity -> "TeamCity"
-                    buildingOnGitHub -> "GitHub"
-                    buildingOnCi -> "CI"
-                    !overriddenName.isNullOrBlank() -> overriddenName
-                    else -> originalUsername
-                }
-            }
-        }
+        termsOfUseUrl = "https://gradle.com/help/legal-terms-of-use"
+        termsOfUseAgree = "yes"
+        publishing.onlyIf { true }
     }
 }
 //endregion
